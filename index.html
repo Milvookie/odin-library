@@ -15,14 +15,16 @@
     </header>
 
     <main>
-        <div class="library-log">
-            <h4>Library log</h4>
-            <p class="books-count">Total books:</p>
-            <p class="books-read">Read:</p>
-            <p class="books-read">Not read:</p>
-        </div>
-        <div class="btn-add-new-book">
-            <button id="add-book">Add a new book</button>
+        <div>
+            <div class="library-log">
+                <h4>Library log</h4>
+                <p class="books-count">Total books: <span class="data"></span></p>
+                <p class="books-read yes">Read: <span class="data"></span></p>
+                <p class="books-read no">Not read: <span class="data"></span></p>
+            </div>
+            <div class="btn-add-new-book">
+                <button id="add-book">Add a new book</button>
+            </div>
         </div>
 
         <div class="add-form">
@@ -31,15 +33,15 @@
             <button id="close-form">X</button>
             <form id="form" action="index.html/new-book" method="post">
                 <div class="champ"><label for="title">Book</label>
-                    <input type="text" id="title" name="title">
+                    <input type="text" id="title" name="title" required>
                 </div>
-                <div class="champ"> <label for="author">Author</label>
+                <div class="champ"> <label for="author" required>Author</label>
                     <input type="text" id="author" name="author">
                 </div>
                 <div class="champ"><label for="read">Status</label>
                     <select name="read" id="read">
-                        <option value="yes">Read</option>
-                        <option value="no">Not read</option>
+                        <option value="true">Read</option>
+                        <option value="false">Not read</option>
                     </select>
                 </div>
 
@@ -47,16 +49,13 @@
             </form>
         </div>
 
-        <div class="books-list">
-            <div class="book-item">
-                <h4 class="book-title">Title</h4>
-                <p class="book-author">Author</p>
-                <p class="pages-number">700 pages</p>
-                <p class="book-read">I have read the book</p>
+            <div class="books-list">
             </div>
-        </div>
+      
+
     </main>
 </body>
-<script src="./main.js"></script>
+<!-- <script src="./main.js"></script> -->
+<script src="./index.js"></script>
 
 </html>
