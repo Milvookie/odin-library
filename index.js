@@ -5,8 +5,8 @@ function Library() {
     this.el = document.querySelector('.books-list')
     this.list = []
 
-    this.addBook = function(book) {
-        this.list.push(book)   
+    this.addBook = function (book) {
+        this.list.push(book)
         myLibrary.push(book)
         this.el.innerHTML += book.getHtml()
     }
@@ -15,30 +15,58 @@ function Library() {
         return this.list.findIndex((element) => element.id == id)
     }
 
-    this.addEvent = function() {
-        console.log(('ADD EVENTS'));
-        
+    this.addEvent = function () {
+
         this.list.forEach((item) => {
 
             const btn = document.querySelector('button[data-book-index="' + item.id + '"]')
+
+            const toggleSwitch = document.querySelector('div#' + item.id + ' div div label.switch input')
             
+            toggleSwitch.addEventListener('change', (e) => {
+                item.toggleSwitch()
+                this.displayLog()    
+            })
+            
+
             btn.addEventListener('click', (e) => {
                 const element = document.getElementById(item.id)
-                const index = this.getIndex(item.id)    
+                const index = this.getIndex(item.id)
                 this.list.splice(index, 1)
                 element.remove()
                 this.displayLog()
-
             })
-            
+
         })
     }
 
-    this.displayLog = function() {
+    this.displayLog = function () {
         const libraryLog = document.querySelector('.library-log')
+        const data = this.list;
         document.querySelector('.library-log .books-count .data').innerText = this.list.length
-        
-        
+
+        const bookRead = data.reduce(function (acc, item) {
+            if (item.read) {
+                acc++
+            }
+            return acc
+        }, 0);
+
+        const bookNotRead = data.reduce(function (acc, item) {
+            if (!item.read) {
+                acc++
+            }
+            return acc
+        }, 0);
+
+        if (bookRead + bookNotRead == this.list.length) {
+            document.querySelector('.library-log .books-read.yes .data').innerText = bookRead
+            document.querySelector('.library-log .books-read.no .data').innerText = bookNotRead
+        } else {
+            console.log('THIS MESSAGE SHOULD NEVER LOG');
+            
+
+        }
     }
 }
 
@@ -47,6 +75,10 @@ function Book(title, author, read) {
     this.author = author;
     this.read = read;
     this.id = title.replace(/\s+/g, '');
+
+    this.toggleSwitch = function() {
+        this.read = !this.read
+    }
 
     this.getHtml = function () {
         return `
@@ -76,7 +108,7 @@ function Book(title, author, read) {
 
 function addBookToLibrary(book) {
     library.addBook(book)
-    library.addEvent()    
+    library.addEvent()
     library.displayLog()
 }
 
