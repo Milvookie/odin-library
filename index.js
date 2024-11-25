@@ -1,33 +1,31 @@
-const myLibrary = []
-const library = new Library()
+class Library {
+    constructor() {
+        this.el = document.querySelector('.books-list')
+        this.list = []
+    }
 
-function Library() {
-    this.el = document.querySelector('.books-list')
-    this.list = []
-
-    this.addBook = function (book) {
+    addBook(book) {
         this.list.push(book)
-        myLibrary.push(book)
         this.el.innerHTML += book.getHtml()
     }
 
-    this.getIndex = function (id) {
+    getIndex(id) {
         return this.list.findIndex((element) => element.id == id)
     }
 
-    this.addEvent = function () {
+    addEvent() {
 
         this.list.forEach((item) => {
 
             const btn = document.querySelector('button[data-book-index="' + item.id + '"]')
 
             const toggleSwitch = document.querySelector('div#' + item.id + ' div div label.switch input')
-            
+
             toggleSwitch.addEventListener('change', (e) => {
                 item.toggleSwitch()
-                this.displayLog()    
+                this.displayLog()
             })
-            
+
 
             btn.addEventListener('click', (e) => {
                 const element = document.getElementById(item.id)
@@ -40,9 +38,9 @@ function Library() {
         })
     }
 
-    this.displayLog = function () {
+    displayLog() {
         const libraryLog = document.querySelector('.library-log')
-        const data = this.list;
+        const data = this.list
         document.querySelector('.library-log .books-count .data').innerText = this.list.length
 
         const bookRead = data.reduce(function (acc, item) {
@@ -50,61 +48,62 @@ function Library() {
                 acc++
             }
             return acc
-        }, 0);
+        }, 0)
 
         const bookNotRead = data.reduce(function (acc, item) {
             if (!item.read) {
                 acc++
             }
             return acc
-        }, 0);
+        }, 0)
 
         if (bookRead + bookNotRead == this.list.length) {
             document.querySelector('.library-log .books-read.yes .data').innerText = bookRead
             document.querySelector('.library-log .books-read.no .data').innerText = bookNotRead
         } else {
-            console.log('THIS MESSAGE SHOULD NEVER LOG');
-            
-
+            console.log('THIS MESSAGE SHOULD NEVER LOG')
         }
     }
 }
 
-function Book(title, author, read) {
-    this.title = title;
-    this.author = author;
-    this.read = read;
-    this.id = title.replace(/\s+/g, '');
+class Book {
+    constructor(title, author, read) {
+        this.title = title
+        this.author = author
+        this.read = read
+        this.id = title.replace(/\s+/g, '')
+    }
 
-    this.toggleSwitch = function() {
+    toggleSwitch() {
         this.read = !this.read
     }
 
-    this.getHtml = function () {
+    getHtml() {
         return `
-            <div class="book-item" id=${this.id}>
-                <div>
-                    <h4 class="book-title">${this.title}</h4>
-                    <p class="book-author">${this.author}</p>
-                </div>
-                <div>
-                    <p>Status</p>
-                    <div>
-                    <label class="switch">
-                      <input type="checkbox" ${this.read ? 'checked' : ''}>
-                      <span class="slider"></span>
-                    </label> <span>${this.read ? 'Read' : 'Not read'}</span>
-                    </div>
-                  </div>
-
-                  <div>
-                  <button class="delete-book" data-book-index=${this.id}>delete</button>
-                  </div>        
+        <div class="book-item" id=${this.id}>
+            <div>
+                <h4 class="book-title">${this.title}</h4>
+                <p class="book-author">${this.author}</p>
             </div>
-        `
+            <div>
+                <p>Status</p>
+                <div>
+                <label class="switch">
+                  <input type="checkbox" ${this.read ? 'checked' : ''}>
+                  <span class="slider"></span>
+                </label> <span>${this.read ? 'Read' : 'Not read'}</span>
+                </div>
+              </div>
+
+              <div>
+              <button class="delete-book" data-book-index=${this.id}>delete</button>
+              </div>        
+        </div>
+    `
     }
 }
 
+const library = new Library()
 
 function addBookToLibrary(book) {
     library.addBook(book)
